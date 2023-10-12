@@ -1,21 +1,24 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Сайт</title>
+    <title>Редактор розкладу</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="utf-8">
+    <meta name="author" content="***">
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <script defer src="assets/js/upload.js"></script>
 </head>
 <body>
-    <h1>Загрузка файлу</h1>
-
-    <div id="dropArea" style="border: 2px dashed #ccc; padding: 20px; text-align: center;">
-        <p>Перетягни файл або</p>
-        <label id="fileLabel" style="background-color: #ccc; border: 1px solid;">
-            <input type="file" id="fileInput" style="display: none;">
-            Обрати файл
-        </label>
+    <h1 class="title">Загрузка файлу</h1>
+    <div class="mainPage">
+        <div id="dropArea">
+            <span>Перетягни файл або</span>
+            <label id="fileLabel">
+                <input type="file" id="fileInput">
+                <span>Обрати файл</span>
+            </label>
+        </div>
+        <span id="loading"><span>
     </div>
-
-    <div id="fileInfo"></div>
-
-    <script src="assets/js/upload.js"></script>
 </body>
 </html>
