@@ -19,6 +19,39 @@ body, html {
     color: #333;
 }
 
+.tableСontainer {
+    border: 1px solid #ddd;
+    width: 300px; /* Ширина контейнера */
+    height: 300px; /* Высота контейнера */
+    overflow-x: auto; /* Горизонтальная прокрутка, если содержимое шире контейнера */
+    overflow-y: auto; /* Вертикальная прокрутка, если содержимое выше контейнера */
+  }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd; /* Границы таблицы */
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; /* Границы ячеек */
+}
+
+th {
+    background-color: #f2f2f2; /* Фон заголовков столбцов */
+}
+
+tr:hover {
+    background-color: #f5f5f5; /* Подсветка строки при наведении курсора */
+}
+
+.tableDay {
+    writing-mode: vertical-lr;
+    text-align: center;
+}
+
 #dropArea {
     border: 2px dashed #ccc;
     width: 30%;
