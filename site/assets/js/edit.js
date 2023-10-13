@@ -3,10 +3,7 @@ const PAIRS = 4;
 
 function createHeader(groups, table) {
     let header = document.createElement("tr");
-
-    let dummy = document.createElement("th");
-    dummy.setAttribute("colspan", 2);
-    header.appendChild(dummy);
+    header.innerHTML = '<th colspan="2"></th>';
 
     for (let group of groups) {
         let groupEl = document.createElement("th")
@@ -19,40 +16,54 @@ function createHeader(groups, table) {
 
 function createSideHeader(table) {
     for (let day of DAYS) {
-        let firstRow = document.createElement("tr");
 
-        let dayCell = document.createElement("th");
-        dayCell.setAttribute("rowspan", 8);
-        dayCell.setAttribute("class", "tableDay");
-        dayCell.innerText = day;
+        for (let i = 1; i < PAIRS + 1; i++) {
+            let row = document.createElement("tr");
 
-        firstRow.appendChild(dayCell);
-
-        for (let i = 1, row = firstRow; i < PAIRS + 1; i++, row = document.createElement("tr")) {
+            if (i == 1) {
+                let dayCell = document.createElement("th");
+                dayCell.setAttribute("rowspan", 8);
+                dayCell.setAttribute("class", "tableDay");
+                dayCell.innerText = day;
+                row.appendChild(dayCell);
+            }
             let pairCell = document.createElement("th");
             pairCell.setAttribute("rowspan", 2);
             pairCell.innerText = i;
             row.appendChild(pairCell);
             table.appendChild(row);
 
-            row = document.createElement("tr");
-            table.appendChild(row);
+            table.appendChild(document.createElement("tr"));
 
         }
     }
 }
 
+function addDayPairs() {
+
+}
+
+function addPairs(groups, course, table) {
+    for (let i = 1; i <= table.childNodes.length; i += 8) {
+        let dayRows = table.childNodes.slice(i, i+8);
+        console.log(dayRows);
+    }
+}
+
 function createTimetable(course, table) {
-    let groups = Object.keys(course, table);
+    let groups = Object.keys(course);
     createHeader(groups, table);
     createSideHeader(table);
+    addPairs(groups, course, table);
     console.log(course);
 }
 
 function loadTimetable() {
-    const loading = document.getElementById('timetable');
+    const table = document.getElementById('timetable');
     let timetable = JSON.parse(sessionStorage.getItem("timetable"));
-    createTimetable(timetable["1 курс"], loading);
+    if (table.innerHTML != "" && timetable) {
+        createTimetable(timetable["1 курс"], table);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", loadTimetable);
