@@ -1,5 +1,5 @@
 const DAYS = ['Понеділок', 'Вівторок', 'Середа', 'Четверг', 'П\'ятниця'];
-const PAIRS = 4;
+const MIN_PAIRS = 4;
 
 function createHeader(groups, table) {
     let header = document.createElement("tr");
@@ -17,7 +17,7 @@ function createHeader(groups, table) {
 function createSideHeader(table) {
     for (let day of DAYS) {
 
-        for (let i = 1; i < PAIRS + 1; i++) {
+        for (let i = 1; i < MIN_PAIRS + 1; i++) {
             let row = document.createElement("tr");
 
             if (i == 1) {
@@ -39,23 +39,53 @@ function createSideHeader(table) {
     }
 }
 
-function addDayPairs() {
-
+function addDayPairs(dayGroupsPairs, dayRows) {
+    for (let groupPairs of dayGroupsPairs) {
+        for (let pairNum = 0; pairNum < MIN_PAIRS; pairNum++) {
+            let pairLen = groupPairs[pairNum].length;
+            if (pairLen > 0) {
+                for (let i = 0; i < Math.min(pairLen, 2); i++) {
+                    let pairCell = document.createElement("td");
+                    pairCell.innerText = groupPairs[pairNum][i]["Предмет"];
+                    dayRows[pairNum * 2 + i].appendChild(pairCell);
+                }
+            }
+            else {
+                dayRows[pairNum * 2].appendChild(document.createElement("td"));
+            }
+        }
+    }
 }
 
 function addPairs(groups, course, table) {
     const tableRows = Array.from(table.childNodes);
-    for (let i = 1; i <= tableRows.length; i += 8) {
-        let dayRows = tableRows.slice(i, i+8);
-        console.log(dayRows);
+    for (let day = 0; day < DAYS.length; day++) {
+        let dayRows = tableRows.slice(day * 8 + 1, day * 8 + 9);
+
+        let dayGroupsPairs = groups.map((group) => course[group][day]);
+        console.log(dayGroupsPairs);
+        addDayPairs(dayGroupsPairs, dayRows);
+    }
+}
+
+function formatJSON(groups, course) {
+    for (let group of groups) {
+        course[group].forEach((days) => {
+            while (days.length < 4) {
+                days.push([]);
+            }
+        });
     }
 }
 
 function createTimetable(course, table) {
     let groups = Object.keys(course);
+    formatJSON(groups, course);
+
     createHeader(groups, table);
     createSideHeader(table);
     addPairs(groups, course, table);
+
     console.log(course);
 }
 
