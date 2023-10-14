@@ -5,12 +5,17 @@ const fileInput = document.getElementById('fileInput');
 const dropArea = document.getElementById('dropArea');
 
 function sendFile(file) {
+    if (window.location.protocol == "file:") {
+        loading.innerHTML = '"file:" протокол не може виконувати fetch.';
+        return;
+    }
     fetchAPI()
-        .then(data => responseAPI(data))
-        .catch(error => {
-            console.error(error);
-        });
+    .then(data => responseAPI(data))
+    .catch(error => {
+        console.error(error);
+    });
     loading.innerHTML = "Загрузка..."
+
 }
 
 function fetchAPI() {
@@ -19,7 +24,7 @@ function fetchAPI() {
             if (response.ok) {
                 return response.json();
             } else {
-                throw new Error('Не удалось загрузить JSON файл');
+                throw new Error('Не вдалось загрузити JSON файл');
             }
         })
 }
@@ -33,15 +38,6 @@ fileInput.addEventListener('change', function () {
     const file = fileInput.files[0];
     sendFile(file);
     fileInput.value = "";
-});
-
-dropArea.addEventListener('dragover', function (e) {
-    e.preventDefault();
-    dropArea.style.border = '2px dashed #333';
-});
-
-dropArea.addEventListener('dragleave', function () {
-    dropArea.style.border = '2px dashed #ccc';
 });
 
 dropArea.addEventListener('drop', function (e) {

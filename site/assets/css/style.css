@@ -67,6 +67,10 @@ td:hover {
     align-items: center;
 }
 
+#dropArea:hover {
+    border: 2px dashed #333;
+}
+
 #dropArea span {
     margin: 10px 0;
 }
