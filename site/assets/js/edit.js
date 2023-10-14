@@ -39,20 +39,29 @@ function createSideHeader(table) {
     }
 }
 
+function addPair(pair, pairNum, dayRows) {
+    let pairLen = pair.length;
+    if (pairLen > 1) {
+        for (let altPair = 0; altPair < 2; altPair++) {
+            let pairCell = document.createElement("td");
+            pairCell.innerText = pair[altPair]["Предмет"];
+            dayRows[pairNum * 2 + altPair].appendChild(pairCell);
+        }
+    }
+    else {
+        let pairCell = document.createElement("td");
+        pairCell.setAttribute("rowspan", 2);
+        if (pairLen == 1) {
+            pairCell.innerText = pair[0]["Предмет"];
+        }
+        dayRows[pairNum * 2].appendChild(pairCell);
+    }
+}
+
 function addDayPairs(dayGroupsPairs, dayRows) {
     for (let groupPairs of dayGroupsPairs) {
         for (let pairNum = 0; pairNum < MIN_PAIRS; pairNum++) {
-            let pairLen = groupPairs[pairNum].length;
-            if (pairLen > 0) {
-                for (let i = 0; i < Math.min(pairLen, 2); i++) {
-                    let pairCell = document.createElement("td");
-                    pairCell.innerText = groupPairs[pairNum][i]["Предмет"];
-                    dayRows[pairNum * 2 + i].appendChild(pairCell);
-                }
-            }
-            else {
-                dayRows[pairNum * 2].appendChild(document.createElement("td"));
-            }
+            addPair(groupPairs[pairNum], pairNum, dayRows);
         }
     }
 }
@@ -63,7 +72,6 @@ function addPairs(groups, course, table) {
         let dayRows = tableRows.slice(day * 8 + 1, day * 8 + 9);
 
         let dayGroupsPairs = groups.map((group) => course[group][day]);
-        console.log(dayGroupsPairs);
         addDayPairs(dayGroupsPairs, dayRows);
     }
 }
@@ -71,9 +79,7 @@ function addPairs(groups, course, table) {
 function formatJSON(groups, course) {
     for (let group of groups) {
         course[group].forEach((days) => {
-            while (days.length < 4) {
-                days.push([]);
-            }
+            while (days.length < 4) days.push([]);
         });
     }
 }
@@ -90,10 +96,10 @@ function createTimetable(course, table) {
 }
 
 function loadTimetable() {
-    const table = document.getElementById('timetable');
-    let timetable = JSON.parse(sessionStorage.getItem("timetable"));
-    if (table.innerHTML == "" && timetable) {
-        createTimetable(timetable["1 курс"], table);
+    const table = document.getElementById('schedule');
+    let schedule = JSON.parse(sessionStorage.getItem("schedule"));
+    if (table.innerHTML == "" && schedule) {
+        createTimetable(schedule["1 курс"], table);
     }
 }
 

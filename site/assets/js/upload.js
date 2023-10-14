@@ -1,4 +1,4 @@
-const API_URL = './timetable.json'
+const API_URL = './schedule.json'
 const EDIT_URL = './edit'
 const loading = document.getElementById('loading');
 const fileInput = document.getElementById('fileInput');
@@ -25,7 +25,7 @@ function fetchAPI() {
 }
 
 function responseAPI(data) {
-    sessionStorage.setItem('timetable', JSON.stringify(data));
+    sessionStorage.setItem('schedule', JSON.stringify(data));
     setTimeout(() => window.open(EDIT_URL, '_self'), 1000);
 }
 
