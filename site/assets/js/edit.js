@@ -44,8 +44,9 @@ function addDayPairs() {
 }
 
 function addPairs(groups, course, table) {
-    for (let i = 1; i <= table.childNodes.length; i += 8) {
-        let dayRows = table.childNodes.slice(i, i+8);
+    const tableRows = Array.from(table.childNodes);
+    for (let i = 1; i <= tableRows.length; i += 8) {
+        let dayRows = tableRows.slice(i, i+8);
         console.log(dayRows);
     }
 }
@@ -61,7 +62,7 @@ function createTimetable(course, table) {
 function loadTimetable() {
     const table = document.getElementById('timetable');
     let timetable = JSON.parse(sessionStorage.getItem("timetable"));
-    if (table.innerHTML != "" && timetable) {
+    if (table.innerHTML == "" && timetable) {
         createTimetable(timetable["1 курс"], table);
     }
 }
